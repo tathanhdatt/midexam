@@ -9,10 +9,11 @@ public abstract class MyAbstractList implements MyList {
   @Override
   public String toString() {
     StringBuilder str = new StringBuilder();
+    str.append('[');
     for (int i = 0; i < size() - 1; i++) {
       str.append(get(i)).append("][");
     }
-    str.append(']');
+    str.append(get(size() - 1)).append(']');
     return str.toString();
   }
 }

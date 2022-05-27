@@ -51,9 +51,12 @@ public class ListPoly extends AbstractPoly {
   }
 
   private void reduce() {
+    if (super.degree == 0) {
+      return;
+    }
     for (int i = degree; i >= 0; i--) {
       if (this.coefficients.get(i) == 0) {
-        super.degree = i;
+        super.degree--;
       } else {
         break;
       }
@@ -63,15 +66,24 @@ public class ListPoly extends AbstractPoly {
   @Override
   public Poly derivative() {
     reduce();
-    int[] newCoefficients = new int[degree + 1];
-    for (int i = 0; i <= degree; i++) {
-      newCoefficients[i] = i * coefficients()[i];
+    int[] newCoefficients;
+
+    if (degree == 0) {
+      newCoefficients = new int[1];
+    } else {
+      newCoefficients = new int[degree];
     }
+
+    for (int i = 1; i <= degree; i++) {
+      newCoefficients[i - 1] = i * this.coefficient(i);
+    }
+
     return new ListPoly(newCoefficients);
   }
 
   @Override
   public int coefficient(int degree) {
+    reduce();
     return this.coefficients.get(degree);
   }
 
@@ -80,7 +92,7 @@ public class ListPoly extends AbstractPoly {
     reduce();
     int[] arrayCoefficients = new int[super.degree + 1];
     for (int i = 0; i < super.degree; i++) {
-      arrayCoefficients[i] = this.coefficients.get(i);
+      arrayCoefficients[i] = this.coefficient(i);
     }
     return arrayCoefficients;
   }

@@ -45,9 +45,12 @@ public class ArrayPoly extends AbstractPoly {
   }
 
   private void reduce() {
+    if (super.degree == 0) {
+      return;
+    }
     for (int i = degree(); i >= 0; i--) {
       if (this.coefficients[i] == 0) {
-        super.degree = i;
+        super.degree--;
       } else {
         break;
       }
@@ -57,15 +60,25 @@ public class ArrayPoly extends AbstractPoly {
   @Override
   public Poly derivative() {
     reduce();
-    int[] newCoefficients = new int[degree + 1];
-    for (int i = 0; i <= degree; i++) {
-      newCoefficients[i] = i * coefficients()[i];
+
+    int[] newCoefficients;
+
+    if (degree == 0) {
+      newCoefficients = new int[1];
+    } else {
+      newCoefficients = new int[degree];
     }
+
+    for (int i = 1; i <= degree; i++) {
+      newCoefficients[i - 1] = i * this.coefficient(i);
+    }
+
     return new ArrayPoly(newCoefficients);
   }
 
   @Override
   public int coefficient(int degree) {
+    reduce();
     return this.coefficients[degree];
   }
 

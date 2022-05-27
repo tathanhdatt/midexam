@@ -8,8 +8,8 @@ public class AbstractPoly implements Poly {
 
   int[] differentiate() {
     int[] newCoefficients = new int[degree + 1];
-    for (int i = 0; i <= degree; i++) {
-      newCoefficients[i] = i * coefficients()[i];
+    for (int i = 1; i <= degree; i++) {
+      newCoefficients[i - 1] = i * coefficients()[i];
     }
     return newCoefficients;
   }
@@ -39,26 +39,26 @@ public class AbstractPoly implements Poly {
     str.append("Poly[");
 
     if (degree == 0) {
-      str.append(coefficients()[0]).append(']');
+      str.append(coefficient(0)).append(']');
       return str.toString();
     }
 
-    str.append(coefficients()[0]).append(" + ");
+    str.append(coefficient(0)).append(" + ");
 
     if (degree == 1) {
-      str.append(coefficients()[1]).append("x]");
+      str.append(coefficient(1)).append("x]");
       return str.toString();
     }
 
     for (int i = 1; i < degree; i++) {
       if (i == 1) {
-        str.append(coefficients()[1]).append("x + ");
+        str.append(coefficient(i)).append("x + ");
       } else {
-        str.append(coefficients()[i]).append("x^").append(i).append(" + ");
+        str.append(coefficient(i)).append("x^").append(i).append(" + ");
       }
     }
 
-    str.append(coefficients()[degree]).append("x^").append(degree);
+    str.append(coefficient(degree)).append("x^").append(degree);
     str.append(']');
 
     return str.toString();
@@ -87,10 +87,12 @@ public class AbstractPoly implements Poly {
   @Override
   public double evaluate(double x) {
 
-    int evaluate = 0;
+    int evaluate = this.coefficient(0);
+    double t = 1;
 
-    for (int i = 0; i <= this.degree; i++) {
-      evaluate += this.coefficient(i);
+    for (int i = 1; i <= this.degree; i++) {
+      t *= x;
+      evaluate += this.coefficient(i) * t;
     }
 
     return evaluate;
