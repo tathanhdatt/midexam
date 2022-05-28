@@ -29,16 +29,15 @@ public class MyLinkedList extends MyAbstractList {
 
   @Override
   public void add(Object obj, int index) {
-    index++;
     this.add(obj);
     MyLinkedListNode node = this.head;
-    for (int i = 1; i < index; i++) {
+    for (int i = 1; i <= index; i++) {
       node = node.getNext();
     }
     Object prevPayload = node.getPayload();
     Object nextPayload;
 
-    for (int i = index; i < this.size; i++) {
+    for (int i = index + 1; i < this.size; i++) {
       node = node.getNext();
       nextPayload = node.getPayload();
       node.setPayload(prevPayload);
@@ -46,7 +45,7 @@ public class MyLinkedList extends MyAbstractList {
     }
 
     MyLinkedListNode indexNode = this.head;
-    for (int i = 1; i < index; i++) {
+    for (int i = 1; i <= index; i++) {
       indexNode = indexNode.getNext();
     }
 
@@ -70,13 +69,12 @@ public class MyLinkedList extends MyAbstractList {
     if (!super.checkBoundaries(index, this.size)) {
       throw new IndexOutOfBoundsException("Index " + index + " out of length " + size);
     }
-    index++;
     MyLinkedListNode node = this.head;
-    for (int i = 1; i < index; i++) {
+    for (int i = 1; i <= index; i++) {
       node = node.getNext();
     }
 
-    for (int i = index; i < this.size; i++) {
+    for (int i = index + 1; i < this.size; i++) {
       node.setPayload(node.getNext().getPayload());
       node = node.getNext();
     }
